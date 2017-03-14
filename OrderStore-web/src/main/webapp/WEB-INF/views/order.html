@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/templateInitial}">
+<head>
+<title>Layout Dialect Example</title>
+</head>
+<body>
+	<div layout:fragment="custom-content">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Project Name</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="jumbotron">
+			<div class="container">
+				<h1>
+					<label th:text="#{msg.header.title}"></label>
+				</h1>
+				<p>
+					<label th:if="${#strings.isEmpty(newMsg) == false}"
+						th:inline="text">Hello [[${newMsg}]]</label> <label
+						th:if="${#strings.isEmpty(newMsg)}">"Welcome Welcome!"</label>
+				</p>
+				<p>
+					<a id="btn1" class="btn btn-primary btn-lg" href="#" role="button">JQuery
+						is working</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-4">
+					<form action="#" th:action="@{/order/save}" th:object="${order}"
+						method="post">
+						<table>
+							<tr>
+								<td><label th:text="#{msg.form.order.number}" /></td>
+								<td>&nbsp;<input type="number" th:field="*{orderNumber}" /></td>
+							</tr>
+							<tr>
+								<td><label th:text="#{msg.form.customer.name}" /></td>
+								<td>&nbsp;<input type="text" th:field="*{customerName}" /></td>
+							</tr>
+							
+							<tr>
+								<td colspan ="2"><!-- <input type="submit" value="Submit" class="btn btn-primary"/> --></td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td><label th:text="#{msg.form.product.name}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.quantity}" />&nbsp;&nbsp;&nbsp;</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.unit.price}" />&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<!-- 
+				<div class="col-md-4">
+					<h2>Heading</h2>
+					<p>ABC</p>
+					<p>
+						<a id="btn4" class="btn btn-default" href="#" role="button">Toastr
+							and moment libraries</a>
+					</p>
+				</div>
+				-->
+			</div>
+			<hr>
+		</div>
+	</div>
+	<footer>
+		<p layout:fragment="custom-footer">
+		<p>
+	</footer>
+
+</body>
+</html>
