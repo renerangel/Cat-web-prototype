@@ -6,7 +6,7 @@ public class SaleOrder {
 	
 	private Integer orderNumber;
 	private String customerName;
-	private List<Product> products;
+	private List<OrderProduct> products;
 	private Double total;
 	
 	
@@ -28,10 +28,10 @@ public class SaleOrder {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	public List<Product> getProducts() {
+	public List<OrderProduct> getProducts() {
 		return products;
 	}
-	public void setProducts(List<Product> products) {
+	public void setProducts(List<OrderProduct> products) {
 		this.products = products;
 	}
 	

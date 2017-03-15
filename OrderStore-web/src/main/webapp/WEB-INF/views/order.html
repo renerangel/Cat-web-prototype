@@ -10,11 +10,11 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Project Name</a>
+					<a class="navbar-brand" href="#">Cat Web App - Accenture Prototype</a>
 				</div>
 			</div>
 		</nav>
-
+<!-- 
 		<div class="jumbotron">
 			<div class="container">
 				<h1>
@@ -31,14 +31,93 @@
 				</p>
 			</div>
 		</div>
-
+		-->
 		<div class="container">
-
+			
+				<form class="form-horizontal" action="#" th:action="@{/order/save}" th:object="${order}"
+						method="post">
+					<div class="form-group">			
+						<label th:text="#{msg.form.order.number}" class="col-sm-2 control-label"/>
+						<div class="col-sm-4">
+							<input type="number" th:field="*{orderNumber}" class="form-control"/>
+						</div>
+					</div>
+					<div class="form-group">			
+						<label th:text="#{msg.form.customer.name}" class="col-sm-2 control-label"/>
+						<div class="col-sm-4">
+							<input type="text" th:field="*{customerName}" class="form-control"/>
+						</div>
+					</div>
+					 <div class="form-group">	
+					 <div class="col-md-10 column">
+						<table class="table table-bordered table-hover" id="tab_logic">
+							<thead>
+								<tr >
+									<th class="text-center">
+										#
+									</th>
+									<th class="text-center">
+										<label th:text="#{msg.form.product.name}"/>
+									</th>
+									<th class="text-center">
+										<label th:text="#{msg.form.product.quantity}"/>
+									</th>
+									<th class="text-center">
+										<label th:text="#{msg.form.product.unit.price}"/>
+									</th>
+									<th class="text-center">
+        								<button type="submit" name="addRow" th:text="#{msg.product.row.add}">Add row</button>
+      								</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="prod,rowStat : ${order.products}">
+									<td th:text="${rowStat.count}"></td>
+									<td><input type="text" th:fiel="${prod.description}" class="form-control"/></td>
+									<td><input type="text" th:fiel="${prod.quantity}" class="form-control"/></td>
+									<td><input type="text" th:fiel="${prod.price}" class="form-control"/></td>
+									<td><button type="submit" name="removeRow" 
+                						th:value="${rowStat.index}" th:text="#{msg.product.row.remove}">Remove row</button>
+      								</td>
+					      		</tr>
+					      		
+							</tbody>
+						</table>
+						
+					</div>
+					</div>
+					<div class="form-group">			
+						<label th:text="#{msg.form.order.subtotal}" class="col-sm-7 control-label"/>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"/>
+						</div>
+					</div>
+					<div class="form-group">			
+						<label th:text="#{msg.form.order.tax}" class="col-sm-7 control-label"/>
+						<div class="col-sm-3">
+							<input type="text" class="form-control"/>
+						</div>
+					</div>
+					<div class="form-group">			
+						<label th:text="#{msg.form.order.total}" class="col-sm-7 control-label"/>
+						<div class="col-sm-3">
+							<input type="text" th:field="*{total}" class="form-control"/>
+						</div>
+					</div>
+					<div class="form-group">	
+						
+							<input class="btn btn-primary" type="submit" value="Submit">
+							<input class="btn btn-primary" type="submit" value="Clear">
+						
+					</div>
+				</form>
+			
 			<div class="row">
 				<div class="col-md-4">
+					<!-- 
 					<form action="#" th:action="@{/order/save}" th:object="${order}"
 						method="post">
-						<table>
+						<table class="table table-bordered">
 							<tr>
 								<td><label th:text="#{msg.form.order.number}" /></td>
 								<td>&nbsp;<input type="number" th:field="*{orderNumber}" /></td>
@@ -48,18 +127,32 @@
 								<td>&nbsp;<input type="text" th:field="*{customerName}" /></td>
 							</tr>
 							
-							<tr>
-								<td colspan ="2"><!-- <input type="submit" value="Submit" class="btn btn-primary"/> --></td>
-							</tr>
-						</table>
-						<table>
+							
 							<tr>
 								<td><label th:text="#{msg.form.product.name}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.quantity}" />&nbsp;&nbsp;&nbsp;</td>
 								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.unit.price}" />&nbsp;&nbsp;&nbsp;</td>
 							</tr>
+							<tr th:each="prod : ${order.products}">
+								<td><input type="text" th:fiel="${prod.description}"/></td>
+								<td><input type="text" th:fiel="${prod.quantity}"/></td>
+								<td><input type="text" th:fiel="${prod.price}"/></td>
+					      	</tr>
+							<tr>
+								<td><label th:text="#{msg.form.order.subtotal}" /></td>
+								<td><input type="text"/></td>
+							</tr>
+							<tr>
+								<td><label th:text="#{msg.form.order.tax}"/></td>
+								<td><input type="text"/></td>
+							</tr>
+							<tr>
+								<td><label th:text="#{msg.form.order.total}"/></td>
+								<td><input type="text" th:field="*{total}"/></td>
+							</tr>
 						</table>
 					</form>
+					-->
 				</div>
 				<!-- 
 				<div class="col-md-4">
