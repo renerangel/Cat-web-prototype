@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.accenture.model.OrderProduct;
-import com.accenture.model.Product;
 import com.accenture.model.SaleOrder;
 import com.accenture.service.ProductService;
 
@@ -75,7 +74,10 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value = "/order/save", params = {"addRow"})
-	public String addRow(@ModelAttribute SaleOrder order, Model model) {
+	public String addRow(@ModelAttribute("order") SaleOrder order, BindingResult result, Model model) {
+			if(result.hasErrors()){
+				LOGGER.info("Errors binding: "+result.getAllErrors().toString());
+			}
 			LOGGER.info("Order: "+order.getCustomerName());
 			if(order.getProducts() != null){
 				LOGGER.info("Products order: "+order.getProducts().size());
@@ -88,8 +90,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/order/save", params={"removeRow"})
-	public String removeRow(
-	        final SaleOrder order, final BindingResult bindingResult, 
+	public String removeRow(@ModelAttribute("order") SaleOrder order, final BindingResult bindingResult, 
 	        final HttpServletRequest req) {
 	    final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
 	    order.getProducts().remove(rowId.intValue());

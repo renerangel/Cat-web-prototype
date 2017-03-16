@@ -71,16 +71,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="prod,rowStat : ${order.products}">
+								<tr th:each="prod, rowStat : *{products}">
 									<td th:text="${rowStat.count}"></td>
-									<td><input type="text" th:fiel="${prod.description}" class="form-control"/></td>
-									<td><input type="text" th:fiel="${prod.quantity}" class="form-control"/></td>
-									<td><input type="text" th:fiel="${prod.price}" class="form-control"/></td>
+									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].description}" class="form-control"/></td>
+									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].quantity}" class="form-control"/></td>
+									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].price}" class="form-control"/></td>
 									<td><button type="submit" name="removeRow" 
                 						th:value="${rowStat.index}" th:text="#{msg.product.row.remove}">Remove row</button>
       								</td>
 					      		</tr>
-					      		
 							</tbody>
 						</table>
 						
