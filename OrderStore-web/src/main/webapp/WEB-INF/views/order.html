@@ -66,16 +66,16 @@
 										<label th:text="#{msg.form.product.unit.price}"/>
 									</th>
 									<th class="text-center">
-        								<button type="submit" name="addRow" th:text="#{msg.product.row.add}">Add row</button>
+        								<button  type="submit" name="addRow" th:text="#{msg.product.row.add}">Add row</button>
       								</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="prod, rowStat : *{products}">
+								<tr th:each="prod,rowStat : *{products}">
 									<td th:text="${rowStat.count}"></td>
-									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].description}" class="form-control"/></td>
-									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].quantity}" class="form-control"/></td>
-									<td><input type="text" th:fiel="*{products[__${rowStat.index}__].price}" class="form-control"/></td>
+									<td><input type="text" th:field="*{products[__${rowStat.index}__].description}" class="form-control"/></td>
+									<td><input type="text" th:field="*{products[__${rowStat.index}__].quantity}" class="form-control"/></td>
+									<td><input type="text" th:field="*{products[__${rowStat.index}__].price}" class="form-control"/></td>
 									<td><button type="submit" name="removeRow" 
                 						th:value="${rowStat.index}" th:text="#{msg.product.row.remove}">Remove row</button>
       								</td>

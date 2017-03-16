@@ -73,11 +73,9 @@ public class OrderController {
 		return ORDER_PAGE;
 	}
 	
+	@PostMapping
 	@RequestMapping(value = "/order/save", params = {"addRow"})
-	public String addRow(@ModelAttribute("order") SaleOrder order, BindingResult result, Model model) {
-			if(result.hasErrors()){
-				LOGGER.info("Errors binding: "+result.getAllErrors().toString());
-			}
+	public String addRow(@ModelAttribute("order") SaleOrder order, Model model) {
 			LOGGER.info("Order: "+order.getCustomerName());
 			if(order.getProducts() != null){
 				LOGGER.info("Products order: "+order.getProducts().size());
