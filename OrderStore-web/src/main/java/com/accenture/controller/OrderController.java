@@ -3,6 +3,7 @@ package com.accenture.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.accenture.model.OrderProduct;
 import com.accenture.model.SaleOrder;
@@ -32,6 +30,14 @@ public class OrderController {
 	
 	@Autowired
 	private ProductService productService;
+
+	public List<Product> getAllProducts() {
+		return allProducts;
+	}
+
+	public void setAllProducts(List<Product> allProducts) {
+		this.allProducts = allProducts;
+	}
 
 	List<Product> allProducts = null;
 	
@@ -51,9 +57,7 @@ public class OrderController {
 
 		try {
 			 allProducts = productService.getAllProducts();
-			 for(Product product : allProducts){
-			 	LOGGER.info("Product: "+ product.getDescription());
-			 }
+			 List<Product> filteredList = this.searchProductByDescription("cosa");
 		} catch (Exception e) {
 			LOGGER.error("Could not get product list " + e.getMessage());
 		}
@@ -99,6 +103,16 @@ public class OrderController {
 			}
 			
 	        return ORDER_PAGE;
+	}
+
+	@GetMapping
+	@RequestMapping(value = "/order/search/{productName}")
+	public void searchProduct(@PathVariable String productName, Model model) {
+	}
+
+	private List<Product> searchProductByDescription(String desc) {
+		List<Product>  products = this.getAllProducts().stream().filter(product ->  product.getDescription().contains(desc)).collect(Collectors.toList());
+		return  products;
 	}
 	
 	@RequestMapping(value="/order/save", params={"removeRow"})
