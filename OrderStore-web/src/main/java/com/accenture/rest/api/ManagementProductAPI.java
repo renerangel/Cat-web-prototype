@@ -8,6 +8,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
+import java.util.List;
+
 public interface ManagementProductAPI {
 
 	@GET("/product/{productId}")
@@ -20,4 +22,6 @@ public interface ManagementProductAPI {
 	Call<Product> createProduct(@Path("description") String description, @Path("inventory") Integer inventory,
 			@Path("price") Double price);
 
+	@GET("/products")
+	Call <List<Product>> getAllProducts();
 }

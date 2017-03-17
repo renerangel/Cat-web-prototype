@@ -6,6 +6,8 @@ import com.accenture.model.Product;
 import com.accenture.rest.api.ManagementProductAPI;
 import com.accenture.util.RetrofitClient;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService{
 
@@ -24,6 +26,10 @@ public class ProductServiceImpl implements ProductService{
 		return RetrofitClient.getClient(BASE_URL).create(ManagementProductAPI.class).createProduct(description, inventory, price).execute().body();
 	}
 
+	@Override
+	public List<Product> getAllProducts() throws Exception{
+		return RetrofitClient.getClient(BASE_URL).create(ManagementProductAPI.class).getAllProducts().execute().body();
+	}
 	
 	
 }

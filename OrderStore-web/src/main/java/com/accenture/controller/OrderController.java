@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.accenture.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class OrderController {
 	
 	@Autowired
 	private ProductService productService;
+
+	List<Product> allProducts = null;
 	
 	@GetMapping
 	@RequestMapping( value ={"/order/new/"})
@@ -44,6 +47,17 @@ public class OrderController {
 		products.add(new OrderProduct());
 		saleOrder.setProducts(products);
 		model.addAttribute("order", saleOrder);
+
+
+		try {
+			 allProducts = productService.getAllProducts();
+			 for(Product product : allProducts){
+			 	LOGGER.info("Product: "+ product.getDescription());
+			 }
+		} catch (Exception e) {
+			LOGGER.error("Could not get product list " + e.getMessage());
+		}
+
 		try{
 			/**
 			Product product = productService.getProducById(5);
