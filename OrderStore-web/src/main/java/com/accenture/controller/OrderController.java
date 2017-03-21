@@ -38,11 +38,7 @@ public class OrderController {
 	public String newOrder(ModelMap model) {
 		LOGGER.info("You are inside  new order");
 		SaleOrder saleOrder = new SaleOrder();
-
-		OrderProduct orderProduct = new OrderProduct();
 		List <OrderProduct> products = new ArrayList<>();
-		products.add(orderProduct);
-		products.add(new OrderProduct());
 		saleOrder.setProducts(products);
 		model.addAttribute("order", saleOrder);
 
@@ -94,16 +90,27 @@ public class OrderController {
 	}
 	
 	@PostMapping
-	@RequestMapping(value = "/order/save", params = {"addRow"})
-	public String addRow(@ModelAttribute("order") SaleOrder order, Model model) {
+	@RequestMapping(value = "/order/save", params = {"AddProduct"})
+	public String addRow(@ModelAttribute("order") SaleOrder order, Model model,  
+			final HttpServletRequest req) {
+			final Integer productId = Integer.valueOf(req.getParameter("AddProduct"));
+			LOGGER.info("Product Id to add the shopping car: "+productId);
 			LOGGER.info("Order: "+order.getCustomerName());
-			if(order.getProducts() != null){
-				LOGGER.info("Products order: "+order.getProducts().size());
-				order.getProducts().add(new OrderProduct());
-			}else {
-				LOGGER.info("Products order is null ");
+			try {
+				Product product = productService.getProducById(productId); 
+				OrderProduct orderProduct = new OrderProduct(product.getId(), product.getPrice(), product.getDescription());
+				if(order.getProducts() != null){
+					LOGGER.info("Products order: "+order.getProducts().size());
+					order.getProducts().add(orderProduct);
+				}else {
+					LOGGER.info("Products order is null ");
+					List <OrderProduct> products = new ArrayList<>();
+					products.add(orderProduct);
+					order.setProducts(products);
+				}
+			}catch(Exception e){
+				LOGGER.error("Error when we trying to add product to shopping car" + e.getMessage());
 			}
-
 	        return ORDER_PAGE;
 	}
 

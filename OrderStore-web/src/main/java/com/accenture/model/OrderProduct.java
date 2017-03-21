@@ -13,10 +13,9 @@ public class OrderProduct {
 	public OrderProduct() {
 	}
 
-	public OrderProduct(Integer idProduct, Double price, Integer quantity, String description) {
+	public OrderProduct(Integer idProduct, Double price, String description) {
 		this.idProduct = idProduct;
 		this.price = price;
-		this.quantity = quantity;
 		this.description = description;
 	}
 

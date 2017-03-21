@@ -57,24 +57,30 @@
 							<a id="search" class="btn btn-primary" href="#" role="button" th:text="#{msg.form.product.search.button}"/>
 						</div>
 					</div>
-					<div  id="allProducts" name="allProducts" hidden>
-						<table id= "productsTable">
-							<th>
-							<td>Description</td>
-							<td>Inventory</td>
-							<td>Price</td>
-							</th>
-							<tr th:each="product : ${productList}">
+					<div class="form-group">
+					<div class="col-md-10 column" id="allProducts" name="allProducts" hidden>
+						<table id= "productsTable" class="table table-bordered table-hover">
+							<tr>
+								<th>Description</th>
+								<th>Inventory</th>
+								<th>Price</th>
+								<th></th>
+							</tr>
+							<tr th:each="product,rowStat : ${productList}">
 								<td th:text="${product.description}"></td>
 								<td th:text="${product.inventory}"></td>
 								<td th:text="${product.price}"></td>
+								<td><button type="submit" name="AddProduct" 
+                						th:value="${product.id}" th:text="#{msg.form.product.add}"></button>
+      								</td>
 							</tr>
 						</table>
 					</div>
-
+					</div>
 
 					 <div class="form-group">	
 					 <div class="col-md-10 column">
+					 	<label th:text="#{msg.form.product.added.order}" class="col-sm-3 control-label text-left"/>
 						<table class="table table-bordered table-hover" id="tab_logic">
 							<thead>
 								<tr >
@@ -91,13 +97,14 @@
 										<label th:text="#{msg.form.product.unit.price}"/>
 									</th>
 									<th class="text-center">
-        								<button  type="submit" name="addRow" th:text="#{msg.product.row.add}">Add row</button>
+        								<!-- <button  type="submit" name="addRow" th:text="#{msg.product.row.add}">Add row</button>  -->
       								</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="prod,rowStat : *{products}">
 									<td th:text="${rowStat.count}"></td>
+									<!-- <td th:text="${prod.description}"></td> -->
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].description}" class="form-control"/></td>
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].quantity}" class="form-control"/></td>
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].price}" class="form-control"/></td>
