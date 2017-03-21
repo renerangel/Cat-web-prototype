@@ -55,6 +55,17 @@
 			$(document)
 					.ready(
 							function() {
+                                $("#search").click(function() {
+                                    //Disable the button search
+                                    enableSearchButton(false);
+
+                                    // Prevent the form from submitting via the browser.
+                                    event.preventDefault();
+
+									searchProductsAjax();
+
+                                });
+
 								$("#btn1").click(function() {
 									alert("JQuery is working.");
 								});
@@ -87,6 +98,39 @@
 										});
 
 							});
+
+            function enableSearchButton(flag) {
+                $("#btn-search").prop("disabled", flag);
+            }
+
+            function searchProductsAjax() {
+                var searchProd = $("#searchValue").val();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "search",
+                    data: searchProd,
+                    dataType: 'json',
+                    timeout: 100000,
+                    success: function (data) {
+                        console.log("Search products: ", data);
+                        display(data);
+                    },
+                    error: function (e) {
+                        console.log("Error in search product: ", e);
+                        display(e);
+                    },
+                    done: function (e) {
+                        enableSearchButton(true);
+                    }
+                });
+            }
+
+            function display(data) {
+                var json = JSON.stringify(data, null, 4);
+                $('#allProducts').html(json);
+            }
+
 		</script>
 
 		</div>

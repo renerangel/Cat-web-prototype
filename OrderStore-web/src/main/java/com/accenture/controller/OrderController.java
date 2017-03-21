@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import com.accenture.model.Product;
+import com.accenture.service.ProductServiceImpl;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +33,6 @@ public class OrderController {
 	@Autowired
 	private ProductService productService;
 
-	public List<Product> getAllProducts() {
-		return allProducts;
-	}
-
-	public void setAllProducts(List<Product> allProducts) {
-		this.allProducts = allProducts;
-	}
-
-	List<Product> allProducts = null;
-	
 	@GetMapping
 	@RequestMapping( value ={"/order/new/"})
 	public String newOrder(ModelMap model) {
@@ -53,14 +45,6 @@ public class OrderController {
 		products.add(new OrderProduct());
 		saleOrder.setProducts(products);
 		model.addAttribute("order", saleOrder);
-
-
-		try {
-			 allProducts = productService.getAllProducts();
-			 List<Product> filteredList = this.searchProductByDescription("cosa");
-		} catch (Exception e) {
-			LOGGER.error("Could not get product list " + e.getMessage());
-		}
 
 		try{
 			/**
@@ -105,15 +89,6 @@ public class OrderController {
 	        return ORDER_PAGE;
 	}
 
-	@GetMapping
-	@RequestMapping(value = "/order/search/{productName}")
-	public void searchProduct(@PathVariable String productName, Model model) {
-	}
-
-	private List<Product> searchProductByDescription(String desc) {
-		List<Product>  products = this.getAllProducts().stream().filter(product ->  product.getDescription().contains(desc)).collect(Collectors.toList());
-		return  products;
-	}
 	
 	@RequestMapping(value="/order/save", params={"removeRow"})
 	public String removeRow(@ModelAttribute("order") SaleOrder order, final BindingResult bindingResult, 
