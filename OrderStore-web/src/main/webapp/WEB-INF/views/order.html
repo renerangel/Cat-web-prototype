@@ -57,8 +57,21 @@
 							<a id="search" class="btn btn-primary" href="#" role="button" th:text="#{msg.form.product.search.button}"/>
 						</div>
 					</div>
+					<div  id="allProducts" name="allProducts" hidden>
+						<table id= "productsTable">
+							<th>
+							<td>Description</td>
+							<td>Inventory</td>
+							<td>Price</td>
+							</th>
+							<tr th:each="product : ${productList}">
+								<td th:text="${product.description}"></td>
+								<td th:text="${product.inventory}"></td>
+								<td th:text="${product.price}"></td>
+							</tr>
+						</table>
+					</div>
 
-					<div id="allProducts"></div>
 
 					 <div class="form-group">	
 					 <div class="col-md-10 column">

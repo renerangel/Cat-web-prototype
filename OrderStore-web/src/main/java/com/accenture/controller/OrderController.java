@@ -38,7 +38,7 @@ public class OrderController {
 	public String newOrder(ModelMap model) {
 		LOGGER.info("You are inside  new order");
 		SaleOrder saleOrder = new SaleOrder();
-		
+
 		OrderProduct orderProduct = new OrderProduct();
 		List <OrderProduct> products = new ArrayList<>();
 		products.add(orderProduct);
@@ -50,29 +50,47 @@ public class OrderController {
 			/**
 			Product product = productService.getProducById(5);
 		LOGGER.info("Product added: "+product.getId() + "Description: "+product.getDescription());
-		
+
 		SaleOrder order = new SaleOrder();
 		order.setCustomerName("Rene");
 		order.setOrderNumber(04151);
 		List <OrderProduct> products = new ArrayList<>();
-		
+
 		OrderProduct orderProduct = new OrderProduct();
 		orderProduct.setIdProduct(product.getId());
 		orderProduct.setQuantity(2);
 		orderProduct.setPrice(product.getPrice());
 		products.add(orderProduct);
-		
+
 		order.setProducts(products);
 		order.setTotal(product.getPrice()*2);
-		
+
 		Boolean orderAdded = orderService.createOrder(order);
 		LOGGER.info("Order added is: "+orderAdded);
 		*/
-		
+
 		}catch(Exception e){
 			LOGGER.info("Error calling restful service "+e.getMessage());
 		}
 		return ORDER_PAGE;
+	}
+
+	@GetMapping(value = "/order/new/refresh")
+	public String refresh(@RequestParam("searchValue") String searchValue, Model model) {
+		List<Product> productList = null;
+		try {
+			for(Product pr : productService.getAllProducts()){
+				LOGGER.info("PRODUCT: " + pr.getDescription() + "ID: " + pr.getId() + "INVENTORY: " + pr.getInventory()
+						+ "PRICE: " + pr.getPrice());
+			}
+			productList = productService.getAllProducts().stream().filter(product ->  product.getDescription().contains(searchValue)).collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("productList", productList);
+
+		return ORDER_PAGE + " :: #productsTable";
 	}
 	
 	@PostMapping
@@ -85,11 +103,11 @@ public class OrderController {
 			}else {
 				LOGGER.info("Products order is null ");
 			}
-			
+
 	        return ORDER_PAGE;
 	}
 
-	
+
 	@RequestMapping(value="/order/save", params={"removeRow"})
 	public String removeRow(@ModelAttribute("order") SaleOrder order, final BindingResult bindingResult, 
 	        final HttpServletRequest req) {
