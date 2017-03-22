@@ -71,7 +71,7 @@ public class OrderController {
 		return ORDER_PAGE;
 	}
 
-	@GetMapping(value = "/order/new/refresh")
+	@GetMapping(value = {"/order/new/refresh","/order/refresh" })
 	public String refresh(@RequestParam("searchValue") String searchValue, Model model) {
 		List<Product> productList = null;
 		try {
@@ -116,13 +116,13 @@ public class OrderController {
 
 
 	@RequestMapping(value="/order/save", params={"removeRow"})
-	public String removeRow(@ModelAttribute("order") SaleOrder order, final BindingResult bindingResult, 
+	public String removeRow(@ModelAttribute("order") SaleOrder order, final BindingResult bindingResult,
 	        final HttpServletRequest req) {
 	    final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
 	    order.getProducts().remove(rowId.intValue());
 	    return ORDER_PAGE;
 	}
-	
+
 	@PostMapping
 	@RequestMapping( value ={"/order/save"})
 	public String createNewBook(@ModelAttribute SaleOrder order, ModelMap model) {
@@ -130,8 +130,8 @@ public class OrderController {
 		LOGGER.info("Book info: "+order.getCustomerName());
 		return ORDER_PAGE;
 	}
-	
-	
-	
-	
+
+
+
+
 }
