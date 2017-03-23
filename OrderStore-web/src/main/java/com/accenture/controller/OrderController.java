@@ -2,12 +2,14 @@ package com.accenture.controller;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.accenture.model.Product;
+import com.accenture.service.OrderService;
 import com.accenture.service.ProductServiceImpl;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
@@ -32,12 +34,24 @@ public class OrderController {
 	
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private OrderService orderService;
 
 	@GetMapping
 	@RequestMapping( value ={"/order/new/"})
 	public String newOrder(ModelMap model) {
 		LOGGER.info("You are inside  new order");
 		SaleOrder saleOrder = new SaleOrder();
+		Date date = new Date();
+		int orderNumber = (int) (date.getTime()/1000);
+		//
+		LOGGER.info("Integer :" + orderNumber);
+		LOGGER.info("Long : " + new Date().getTime());
+		LOGGER.info("Long Date: " + new Date(new Date().getTime()));
+		LOGGER.info("Int Date: " + new Date(((long)orderNumber) * 1000L));
+
+		saleOrder.setOrderNumber(orderNumber);
+		//
 		List <OrderProduct> products = new ArrayList<>();
 		saleOrder.setProducts(products);
 		model.addAttribute("order", saleOrder);
@@ -96,9 +110,12 @@ public class OrderController {
 			final Integer productId = Integer.valueOf(req.getParameter("AddProduct"));
 			LOGGER.info("Product Id to add the shopping car: "+productId);
 			LOGGER.info("Order: "+order.getCustomerName());
+			LOGGER.info("Order Number" + order.getOrderNumber());
 			try {
-				Product product = productService.getProducById(productId); 
+				Product product = productService.getProducById(productId);
+				LOGGER.info("ProductId:" + product.getId());
 				OrderProduct orderProduct = new OrderProduct(product.getId(), product.getPrice(), product.getDescription());
+				LOGGER.info("OrderProduct:" + orderProduct.getIdProduct());
 				if(order.getProducts() != null){
 					LOGGER.info("Products order: "+order.getProducts().size());
 					order.getProducts().add(orderProduct);
@@ -125,13 +142,19 @@ public class OrderController {
 
 	@PostMapping
 	@RequestMapping( value ={"/order/save"})
-	public String createNewBook(@ModelAttribute SaleOrder order, ModelMap model) {
+	public String createNewOrder(@ModelAttribute("order") SaleOrder order, ModelMap model) {
 		LOGGER.info("Into the create book method");
-		LOGGER.info("Book info: "+order.getCustomerName());
+		LOGGER.info("Order info: "+order.getCustomerName());
+
+		Boolean orderAdded = null;
+		try {
+			order.setTotal(30.0);
+			orderAdded = orderService.createOrder(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("statusOperation", orderAdded);
+		LOGGER.info("Order added is: "+(Boolean) orderAdded);
 		return ORDER_PAGE;
 	}
-
-
-
-
 }

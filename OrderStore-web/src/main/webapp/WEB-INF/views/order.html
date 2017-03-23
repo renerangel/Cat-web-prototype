@@ -108,6 +108,7 @@
 								<tr th:each="prod,rowStat : *{products}">
 									<td th:text="${rowStat.count}"></td>
 									<!-- <td th:text="${prod.description}"></td> -->
+									<input type="hidden" th:field="*{products[__${rowStat.index}__].idProduct}" class="form-control"/>
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].description}" class="form-control" readonly/></td>
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].quantity}" class="form-control"/></td>
 									<td><input type="text" th:field="*{products[__${rowStat.index}__].price}" class="form-control" readonly/></td>
@@ -140,7 +141,8 @@
 					</div>
 					<div class="form-group">
 
-						<input class="btn btn-primary" type="submit" value="Submit">
+						<input id="btnSubmit" class="btn btn-primary" type="submit" value="Submit">
+						<!--<input type="text" id="addedStatus" th:value="${orderAdded}" hidden>-->
 						<input class="btn btn-primary" type="submit" value="Clear">
 
 					</div>
