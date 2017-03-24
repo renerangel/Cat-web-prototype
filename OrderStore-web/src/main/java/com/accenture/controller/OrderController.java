@@ -100,7 +100,7 @@ public class OrderController {
 
 		model.addAttribute("productList", productList);
 
-		return ORDER_PAGE + " :: #productsTable";
+		return ORDER_PAGE + " :: #searchTable";
 	}
 	
 	@PostMapping
@@ -112,10 +112,12 @@ public class OrderController {
 			LOGGER.info("Order: "+order.getCustomerName());
 			LOGGER.info("Order Number" + order.getOrderNumber());
 			try {
+
 				Product product = productService.getProducById(productId);
 				LOGGER.info("ProductId:" + product.getId());
-				OrderProduct orderProduct = new OrderProduct(product.getId(), product.getPrice(), product.getDescription());
+				OrderProduct orderProduct = new OrderProduct(product.getId(), product.getPrice(), 1,  product.getDescription());
 				LOGGER.info("OrderProduct:" + orderProduct.getIdProduct());
+
 				if(order.getProducts() != null){
 					LOGGER.info("Products order: "+order.getProducts().size());
 					order.getProducts().add(orderProduct);

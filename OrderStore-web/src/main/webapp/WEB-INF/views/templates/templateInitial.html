@@ -55,6 +55,24 @@
 			$(document)
 					.ready(
 							function() {
+
+								//Cargar Subtotal
+                                var subtotal = 0.0;
+                                $('#productTableBody > tr').each(function() {
+                                    //console.log($(this).children(":nth-of-type(3)").children(":First"));
+                                    subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
+                                        $(this).children(":nth-of-type(4)").children(":First").val();
+                                });
+                                $('#subtotalValue').val(subtotal);
+
+                                //Cargar IVA/TAX
+								var tax = 16;
+                                $('#taxValue').val(subtotal * (tax/100));
+
+                                //Cargar Total
+                                var total = subtotal + (subtotal * (tax/100));
+                                $('#totalValue').val(total);
+
                                 $("#search").click(function() {
                                     //Disable the button search
                                     enableSearchButton(false);
@@ -65,8 +83,8 @@
 									var searchValue = $("#searchValue").val();
                                     $.get( "refresh", { searchValue: searchValue } )
                                         .done(function( data ) {
-                                        $('#allProducts').show();
-                                        $('#allProducts').html(data);
+                                        $('#allResults').show();
+                                        $('#allResults').html(data);
                                         //alert( data.toString() );
                                     });
 
@@ -120,7 +138,29 @@
 ////                                          toastr.info(orderAdded);
 //                                    });
 
-							});
+                                $('input[name*=quantity]').focusout(function(){
+
+                                    //Cargar Subtotal
+                                    var subtotal = 0.0;
+                                    $('#productTableBody > tr').each(function() {
+                                        //console.log($(this).children(":nth-of-type(3)").children(":First"));
+										subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
+											$(this).children(":nth-of-type(4)").children(":First").val();
+                                    });
+
+                                    $('#subtotalValue').val(subtotal);
+
+                                    //Cargar IVA/TAX
+                                    var tax = 16;
+                                    $('#taxValue').val(subtotal * (tax/100));
+
+                                    //Cargar Total
+                                    var total = subtotal + (subtotal * (tax/100));
+                                    $('#totalValue').val(total);
+
+                                });
+                            });
+
 
             function enableSearchButton(flag) {
                 $("#btn-search").prop("disabled", flag);
