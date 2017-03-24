@@ -51,37 +51,11 @@ public class OrderController {
 		LOGGER.info("Int Date: " + new Date(((long)orderNumber) * 1000L));
 
 		saleOrder.setOrderNumber(orderNumber);
-		//
+
 		List <OrderProduct> products = new ArrayList<>();
 		saleOrder.setProducts(products);
 		model.addAttribute("order", saleOrder);
 
-		try{
-			/**
-			Product product = productService.getProducById(5);
-		LOGGER.info("Product added: "+product.getId() + "Description: "+product.getDescription());
-
-		SaleOrder order = new SaleOrder();
-		order.setCustomerName("Rene");
-		order.setOrderNumber(04151);
-		List <OrderProduct> products = new ArrayList<>();
-
-		OrderProduct orderProduct = new OrderProduct();
-		orderProduct.setIdProduct(product.getId());
-		orderProduct.setQuantity(2);
-		orderProduct.setPrice(product.getPrice());
-		products.add(orderProduct);
-
-		order.setProducts(products);
-		order.setTotal(product.getPrice()*2);
-
-		Boolean orderAdded = orderService.createOrder(order);
-		LOGGER.info("Order added is: "+orderAdded);
-		*/
-
-		}catch(Exception e){
-			LOGGER.info("Error calling restful service "+e.getMessage());
-		}
 		return ORDER_PAGE;
 	}
 
@@ -144,19 +118,25 @@ public class OrderController {
 
 	@PostMapping
 	@RequestMapping( value ={"/order/save"})
-	public String createNewOrder(@ModelAttribute("order") SaleOrder order, ModelMap model) {
+	public String createNewOrder(@ModelAttribute("order") SaleOrder order, Model model) {
 		LOGGER.info("Into the create book method");
 		LOGGER.info("Order info: "+order.getCustomerName());
 
 		Boolean orderAdded = null;
 		try {
-			order.setTotal(30.0);
+			order.setTotal((order.getTotal() / 1.16));
 			orderAdded = orderService.createOrder(order);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("statusOperation", orderAdded);
+		model.addAttribute("orderAdded", orderAdded);
 		LOGGER.info("Order added is: "+(Boolean) orderAdded);
 		return ORDER_PAGE;
+	}
+
+	@RequestMapping( value ="/order/save", params={"clearForm"})
+	public String clearForm(@ModelAttribute("order") SaleOrder order, Model model) {
+		LOGGER.info("Cleaning the form");
+		return "forward:/order/new/";
 	}
 }

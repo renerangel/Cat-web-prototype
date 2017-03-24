@@ -71,6 +71,7 @@
 
                                 //Cargar Total
                                 var total = subtotal + (subtotal * (tax/100));
+
                                 $('#totalValue').val(total);
 
                                 $("#search").click(function() {
@@ -120,20 +121,56 @@
 											var formatString = moment(testDate).format('MM/DD/YYYY');
 											toastr.info('Success messages: '+ formatString);
 										});
+								$("#btnClear").click(
+								    function() {
+								        var current_url = window.location.pathname;
+
+								        if(current_url.indexOf("new") >= 0) {
+								            location.reload();
+										}
+										else
+										    window.location="../order/new/";
+									}
+								);
 
 //                                $("#btnSubmit").click(
 //                                    function() {
 //
 //                                        console.log("Entered btnSubmit");
-//                                        var orderAdded = $("#orderAdded").val();
-//                                        $.get( "save",
-//                                            function() {
-//                                            console.log("on function");
-//                                                console.log("order added: " );
-//                                              //toastr.info(data);
-//                                                //alert( data.toString() );
-//                                            });
-//                                        console.log("exit GET");
+//                                        var message = [[${orderAdded}]];
+//                                        console.log("message = " + message);
+//                                        var orderAdded = $(message).val();
+//                                        var orderAdded2 = $(message).valueOf();
+//                                        var orderAdded3 = $(message).toString();
+//                                        var orderAdded4 = Object.values($("#status.orderAdded"));
+////                                        var orderAdded5 = Object.values($("#orderAdded").orderAdded());
+//
+//                                        console.log("OrderAdded satus:" + orderAdded);
+//                                        console.log("OrderAdded satus.valueOf:" + orderAdded2);
+//                                        console.log("OrderAdded satus.toString:" + orderAdded3);
+//                                        console.log("OrderAdded satus:" + orderAdded4);
+////
+//                                        $.ajax({
+//											'url' : 'http://localhost:8081/CAT/order/save',
+//											'type' : 'GET',
+//											'success' : function (data) {
+//                                                var message1 = [[${orderAdded}]];
+//                                                console.log("In ajax");
+//                                                console.log("message = " + message1);
+//                                                var orderAdded = $(message1).val();
+//                                                var orderAdded2 = $(message1).valueOf();
+//                                                var orderAdded3 = $(message1).toString();
+//											}
+//										});
+//
+//                                        $(document).ajaxComplete(function () {
+//                                            var message1 = [[${orderAdded}]];
+//                                            console.log("In ajax 2");
+//                                           // alert("In ajax test 2");
+//                                            console.log("message = " + message1);
+//
+//                                        });
+//                                        //console.log("OrderAdded satus:" + orderAdded5);
 ////                                      $.get("save", {orderAdded : orderAdded};
 ////                                          toastr.info(orderAdded);
 //                                    });
@@ -159,8 +196,35 @@
                                     $('#totalValue').val(total);
 
                                 });
-                            });
 
+
+                                $(document).ready(function() {
+//
+									var con = window.location.pathname;
+                                    if (con.indexOf("save") >= 0) {
+                                        var message1 = [[${orderAdded}]];
+                                        if(message1) {
+                                            console.log("toastr");
+                                            console.log(message1);
+                                            toastr.success("Order Status:  Success!");
+
+                                            alert("Order Status: Completed\nRedirecting to new order page");
+                                            setTimeout(function () {
+                                                window.location="../order/new/";
+
+                                            }, 2000);
+
+                                        }
+                                        else if(message1 == false){
+                                            console.log("tostr");
+                                            console.log(message1);
+                                            toastr.error("Order Status: Order not completed.");
+
+										}
+                                    }
+                                });
+
+							});
 
             function enableSearchButton(flag) {
                 $("#btn-search").prop("disabled", flag);
