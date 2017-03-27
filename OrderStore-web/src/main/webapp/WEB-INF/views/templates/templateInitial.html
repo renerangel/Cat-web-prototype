@@ -178,23 +178,25 @@
                                 $('input[name*=quantity]').focusout(function(){
 
                                     //Cargar Subtotal
-                                    var subtotal = 0.0;
-                                    $('#productTableBody > tr').each(function() {
-                                        //console.log($(this).children(":nth-of-type(3)").children(":First"));
-										subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
+									if($(this).val()<0) {
+                                        //alert($(this).val());
+                                        $(this).val(0);
+                                    }
+									var subtotal = 0.0;
+									$('#productTableBody > tr').each(function () {
+										//console.log($(this).children(":nth-of-type(3)").children(":First"));
+										subtotal += $(this).children(":nth-of-type(3)").children(":First").val() *
 											$(this).children(":nth-of-type(4)").children(":First").val();
-                                    });
+									});
+									$('#subtotalValue').val(subtotal);
 
-                                    $('#subtotalValue').val(subtotal);
+									//Cargar IVA/TAX
+									var tax = 16;
+									$('#taxValue').val(subtotal * (tax / 100));
 
-                                    //Cargar IVA/TAX
-                                    var tax = 16;
-                                    $('#taxValue').val(subtotal * (tax/100));
-
-                                    //Cargar Total
-                                    var total = subtotal + (subtotal * (tax/100));
-                                    $('#totalValue').val(total);
-
+									//Cargar Total
+									var total = subtotal + (subtotal * (tax / 100));
+									$('#totalValue').val(total);
                                 });
 
 
