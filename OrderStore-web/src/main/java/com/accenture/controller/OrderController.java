@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.accenture.model.Product;
 import com.accenture.service.OrderService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import com.accenture.model.OrderProduct;
 import com.accenture.model.SaleOrder;
 import com.accenture.service.ProductService;
+import sun.rmi.runtime.Log;
 
 @Controller
 public class OrderController {
@@ -79,12 +81,17 @@ public class OrderController {
 	
 	@PostMapping
 	@RequestMapping(value = "/order/save", params = {"AddProduct"})
-	public String addRow(@ModelAttribute("order") SaleOrder order, Model model,  
+	public String addRow(@Valid @ModelAttribute("order") SaleOrder order, BindingResult result, Model model,
 			final HttpServletRequest req) {
 			final Integer productId = Integer.valueOf(req.getParameter("AddProduct"));
 			LOGGER.info("Product Id to add the shopping car: "+productId);
 			LOGGER.info("Order: "+order.getCustomerName());
 			LOGGER.info("Order Number" + order.getOrderNumber());
+			if(result.hasErrors()) {
+				LOGGER.error("------- ERROR ---------------");
+				LOGGER.error(result.getFieldError().toString());
+				return ORDER_PAGE;
+			}
 			try {
 
 				Product product = productService.getProducById(productId);
@@ -118,11 +125,15 @@ public class OrderController {
 
 	@PostMapping
 	@RequestMapping( value ={"/order/save"})
-	public String createNewOrder(@ModelAttribute("order") SaleOrder order, Model model) {
-		LOGGER.info("Into the create book method");
+	public String createNewOrder(@Valid @ModelAttribute("order") SaleOrder order, BindingResult result, Model model) {
 		LOGGER.info("Order info: "+order.getCustomerName());
 
 		Boolean orderAdded = null;
+		if (result.hasErrors()) {
+			LOGGER.error("------- ERROR ---------------");
+			LOGGER.error(result.getFieldError().toString());
+			return ORDER_PAGE;
+		}
 		try {
 			order.setTotal((order.getTotal() / 1.16));
 			orderAdded = orderService.createOrder(order);

@@ -1,12 +1,20 @@
 package com.accenture.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class SaleOrder {
 	
 	private Integer orderNumber;
+	@Size(min = 3, max = 15)
 	private String customerName;
 	private List<OrderProduct> products;
+	@Min(0)
 	private Double total;
 	
 	
@@ -35,6 +43,6 @@ public class SaleOrder {
 		this.products = products;
 	}
 	
-	
-	
+
+
 }

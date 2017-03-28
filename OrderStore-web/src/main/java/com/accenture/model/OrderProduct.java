@@ -1,13 +1,21 @@
 package com.accenture.model;
 
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class OrderProduct {
 
 
 	private Integer idProduct;
+	@NotEmpty @Min(1)
 	private Double price;
+	@NotEmpty  @Min(5)
 	private Integer quantity;
+	@NotBlank
 	private String description;
 
 	public OrderProduct() {

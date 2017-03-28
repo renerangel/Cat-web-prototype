@@ -1,12 +1,21 @@
 package com.accenture.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Order {
 	
 	private Integer id;
+	@NotEmpty
 	private Date orderDate;
+	@NotBlank
+	@Size(min = 2, max = 20)
 	private String userName;
+	@NotEmpty @Min(0)
 	private Double total;
 	
 	public Integer getId() {
