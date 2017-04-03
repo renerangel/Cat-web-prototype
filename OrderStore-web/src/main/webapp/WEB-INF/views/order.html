@@ -55,23 +55,25 @@
 					<input id="searchValue" type="text" class="form-control"/>
 				</div>
 				<div class="col-sm-2">
-					<a id="search" class="btn btn-primary" href="#" role="button" th:text="#{msg.form.product.search.button}"/>
+					<a id="search" class="btn btn-primary" href="#" role="button" >
+					<span class="glyphicon glyphicon-search"></span>
+					</a>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-md-10 column" id="allResults" name="allResults" hidden>
-					<table id= "searchTable" class="table table-bordered table-hover">
+				<div class="col-md-8 column" id="allResults" name="allResults" hidden>
+					<table id= "searchTable" class="table table-bordered table-hover text-center">
 						<tr>
-							<th>Description</th>
-							<th>Inventory</th>
-							<th>Price</th>
+							<th class="text-center">Description</th>
+							<th class="text-center">Inventory</th>
+							<th class="text-center">Price</th>
 							<th></th>
 						</tr>
 						<tr th:each="product,rowStat : ${productList}">
 							<td th:text="${product.description}"></td>
 							<td th:text="${product.inventory}"></td>
-							<td th:text="${product.price}"></td>
-							<td><button type="submit" name="AddProduct"
+							<td th:text="'$'+${product.price}"></td>
+							<td><button type="submit" name="AddProduct" class="btn btn-info"
 										th:value="${product.id}"><span class="glyphicon glyphicon-plus"></span> </button>
 							</td>
 						</tr>
@@ -129,7 +131,8 @@
 						<div class="form-group">
 							<label th:text="#{msg.form.order.subtotal}" class="col-sm-7 control-label"/>
 							<div class="col-sm-3">
-								<input  id="subtotalValue" type="text" class="form-control" readonly/>
+								<input  id="subtotalValue" type="text"
+										th:field="*{total}" class="form-control" readonly/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -141,7 +144,7 @@
 						<div class="form-group">
 							<label th:text="#{msg.form.order.total}" class="col-sm-7 control-label"/>
 							<div class="col-sm-3">
-								<input id="totalValue" type="text" th:field="*{total}" class="form-control" readonly/>
+								<input id="totalValue" type="text" class="form-control" readonly/>
                                 <p class="alert alert-danger" th:if="${#fields.hasErrors('total')}" th:errors="*{total}" ></p>
 							</div>
 						</div>
