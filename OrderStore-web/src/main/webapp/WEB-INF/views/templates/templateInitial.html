@@ -1,146 +1,147 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org">
 <head>
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Demo - Accenture</title>
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Demo - Accenture</title>
 
-<!-- Latest compiled and minified CSS -->
+	<!-- Latest compiled and minified CSS -->
 
-<link th:href="@{/static/css/app.css}" rel="stylesheet" />
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
-	th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
-	rel="stylesheet" />
-<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"
-	th:href="@{/webjars/jquery-ui-themes/1.11.4/south-street/jquery-ui.min.css}"
-	rel="stylesheet" />
+	<link th:href="@{/static/css/app.css}" rel="stylesheet" />
+	<link
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+			th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+			rel="stylesheet" />
+	<link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"
+		  th:href="@{/webjars/jquery-ui-themes/1.11.4/south-street/jquery-ui.min.css}"
+		  rel="stylesheet" />
 
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
-	th:href="@{/webjars/toastr/2.1.2/build/toastr.min.css}"
-	rel="stylesheet" />
+	<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+			th:href="@{/webjars/toastr/2.1.2/build/toastr.min.css}"
+			rel="stylesheet" />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<header>
-		<h1>Create Order</h1>
-	</header>
-	<div layout:fragment="custom-content">
-		<p>Your page content goes here</p>
-	</div>
-	<footer>
-		<p layout:fragment="custom-footer">footer Template<p>
-		 &copy; <label th:text="#{msg.loging.footer.company}"></label> 2017 <label th:text="#{msg.loging.footer.company.copyright}"></label>
-		
-		<div layout:fragment="javascript-fragment">
-			<script type="text/javascript" th:inline="javascript"
+<header>
+	<h1>Create Order</h1>
+</header>
+<div layout:fragment="custom-content">
+	<p>Your page content goes here</p>
+</div>
+<footer>
+	<p layout:fragment="custom-footer">footer Template<p>
+	&copy; <label th:text="#{msg.loging.footer.company}"></label> 2017 <label th:text="#{msg.loging.footer.company.copyright}"></label>
+
+	<div layout:fragment="javascript-fragment">
+		<script type="text/javascript" th:inline="javascript"
 				src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
 				th:src="@{/webjars/jquery/2.2.4/dist/jquery.min.js}"></script>
-			<script type="text/javascript" th:inline="javascript"
+		<script type="text/javascript" th:inline="javascript"
 				src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
 				th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
-			<script type="text/javascript" th:inline="javascript"
+		<script type="text/javascript" th:inline="javascript"
 				src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
 				th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js	}"></script>
 
-			<script type="text/javascript" th:inline="javascript"
+		<script type="text/javascript" th:inline="javascript"
 				src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"
 				th:src="@{/webjars/moment/2.14.1/min/moment.min.js}"></script>
 
-			<script type="text/javascript" th:inline="javascript"
+		<script type="text/javascript" th:inline="javascript"
 				src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
 				th:src="@{/webjars/toastr/2.1.2/build/toastr.min.js}"></script>
 
-			<script type="text/javascript" th:inline="javascript">
-			$(document)
-					.ready(
-							function() {
+		<script type="text/javascript" th:inline="javascript">
+            $(document)
+                .ready(
+                    function() {
 
-								//Cargar Subtotal
-                                var subtotal = 0.0;
-                                $('#productTableBody > tr').each(function() {
-                                    //console.log($(this).children(":nth-of-type(3)").children(":First"));
-                                    subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
-                                        $(this).children(":nth-of-type(4)").children(":First").val();
+                        //Cargar Subtotal
+                        var subtotal = 0.0;
+                        $('#productTableBody > tr').each(function() {
+                            //console.log($(this).children(":nth-of-type(4)").children(":First").children(":nth-of-type(1)")[1]);
+                            subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
+                                $(this).children(":nth-of-type(4)").children(":First").children(":nth-of-type(1)")[1].value;
+                        });
+                        $('#subtotalValue').val(subtotal.toFixed(2));
+
+                        //Cargar IVA/TAX
+                        var tax = 16;
+                        var taxFinal = subtotal * (tax/100);
+                        $('#taxValue').val(taxFinal.toFixed(2));
+
+                        //Cargar Total
+                        var total = subtotal + (subtotal * (tax/100));
+
+                        $('#totalValue').val(total.toFixed(2));
+
+                        $(document).on("keypress", 'form', function (e) {
+                            var code = e.keyCode || e.which;
+                            if (code == 13) {
+                                e.preventDefault();
+                                return false;
+                            }
+                        });
+
+                        $("#search").click(function() {
+                            //Disable the button search
+                            enableSearchButton(false);
+
+                            // Prevent the form from submitting via the browser.
+                            event.preventDefault();
+
+                            var searchValue = $("#searchValue").val();
+                            $.get( "refresh", { searchValue: searchValue } )
+                                .done(function( data ) {
+                                    $('#allResults').show();
+                                    $('#allResults').html(data);
+                                    //alert( data.toString() );
                                 });
-                                $('#subtotalValue').val(subtotal);
 
-                                //Cargar IVA/TAX
-								var tax = 16;
-                                $('#taxValue').val(subtotal * (tax/100));
+                        });
 
-                                //Cargar Total
-                                var total = subtotal + (subtotal * (tax/100));
+                        $("#btn1").click(function() {
+                            alert("JQuery is working.");
+                        });
 
-                                $('#totalValue').val(total);
-
-                                $(document).on("keypress", 'form', function (e) {
-                                    var code = e.keyCode || e.which;
-                                    if (code == 13) {
-                                        e.preventDefault();
-                                        return false;
-                                    }
+                        $("#btn2")
+                            .click(
+                                function() {
+                                    var text = $("#text1").val();
+                                    var path = /*[[@{/showMessage/}]]*/
+                                        window.location.href = path + text;
                                 });
 
-                                $("#search").click(function() {
-                                    //Disable the button search
-                                    enableSearchButton(false);
-
-                                    // Prevent the form from submitting via the browser.
-                                    event.preventDefault();
-
-									var searchValue = $("#searchValue").val();
-                                    $.get( "refresh", { searchValue: searchValue } )
-                                        .done(function( data ) {
-                                        $('#allResults').show();
-                                        $('#allResults').html(data);
-                                        //alert( data.toString() );
-                                    });
-
+                        $("#btn3")
+                            .click(
+                                function() {
+                                    var text = $("#text2").val();
+                                    var path = /*[[@{/showMessage?msg=}]]*/;
+                                    window.location.href = path + text;
                                 });
 
-								$("#btn1").click(function() {
-									alert("JQuery is working.");
-								});
+                        $("#btn4").click(
+                            function() {
+                                var testDate = '02/12/2016';
+                                var formatString = moment(testDate).format('MM/DD/YYYY');
+                                toastr.success('Success messages: '	+ formatString);
 
-								$("#btn2")
-										.click(
-												function() {
-													var text = $("#text1").val();
-													var path = /*[[@{/showMessage/}]]*/
-													window.location.href = path + text;	
-												});
+                                testDate = new Date();
+                                var formatString = moment(testDate).format('MM/DD/YYYY');
+                                toastr.info('Success messages: '+ formatString);
+                            });
+                        $("#btnClear").click(
+                            function() {
+                                var current_url = window.location.pathname;
 
-								$("#btn3")
-										.click(
-												function() {
-													var text = $("#text2").val();
-													var path = /*[[@{/showMessage?msg=}]]*/;
-													window.location.href = path + text;
-												});
-
-								$("#btn4").click(
-										function() {
-											var testDate = '02/12/2016';
-											var formatString = moment(testDate).format('MM/DD/YYYY');
-											toastr.success('Success messages: '	+ formatString);
-
-											testDate = new Date();
-											var formatString = moment(testDate).format('MM/DD/YYYY');
-											toastr.info('Success messages: '+ formatString);
-										});
-								$("#btnClear").click(
-								    function() {
-								        var current_url = window.location.pathname;
-
-								        if(current_url.indexOf("new") >= 0) {
-								            location.reload();
-										}
-										else
-										    window.location="../order/new/";
-									}
-								);
+                                if(current_url.indexOf("new") >= 0) {
+                                    location.reload();
+                                }
+                                else
+                                    window.location="../order/new/";
+                            }
+                        );
 
 //                                $("#btnSubmit").click(
 //                                    function() {
@@ -184,58 +185,59 @@
 ////                                          toastr.info(orderAdded);
 //                                    });
 
-                                $('input[name*=quantity]').focusout(function(){
+                        $('input[name*=quantity]').focusout(function(){
 
-                                    //Cargar Subtotal
-									if($(this).val()<=1) {
-                                        //alert($(this).val());
-                                        $(this).val(1);
-                                    }
-									var subtotal = 0.0;
-									$('#productTableBody > tr').each(function () {
-										//console.log($(this).children(":nth-of-type(3)").children(":First"));
-										subtotal += $(this).children(":nth-of-type(3)").children(":First").val() *
-											$(this).children(":nth-of-type(4)").children(":First").val();
-									});
-									$('#subtotalValue').val(subtotal);
+                            //Cargar Subtotal
+                            if($(this).val()<=1) {
+                                //alert($(this).val());
+                                $(this).val(1);
+                            }
+                            var subtotal = 0.0;
+                            $('#productTableBody > tr').each(function () {
+                                //console.log($(this).children(":nth-of-type(4)").children(":First").children(":nth-of-type(1)")[1]);
+                                subtotal+=$(this).children(":nth-of-type(3)").children(":First").val()*
+                                    $(this).children(":nth-of-type(4)").children(":First").children(":nth-of-type(1)")[1].value;
+                            });
+                            $('#subtotalValue').val(subtotal.toFixed(2));
 
-									//Cargar IVA/TAX
-									var tax = 16;
-									$('#taxValue').val(subtotal * (tax / 100));
+                            //Cargar IVA/TAX
+                            var tax = 16;
+                            var taxFinal = subtotal * (tax / 100);
+                            $('#taxValue').val(taxFinal.toFixed(2));
 
-									//Cargar Total
-									var total = subtotal + (subtotal * (tax / 100));
-									$('#totalValue').val(total);
-                                });
+                            //Cargar Total
+                            var total = subtotal + (subtotal * (tax / 100));
+                            $('#totalValue').val(total.toFixed(2));
+                        });
 
 
-                                $(document).ready(function() {
+                        $(document).ready(function() {
 //
-									var con = window.location.pathname;
-                                    if (con.indexOf("save") >= 0) {
-                                        var message1 = [[${orderAdded}]];
-                                        if(message1) {
-                                            console.log("toastr");
-                                            console.log(message1);
-                                            toastr.success("Order Status:  Success!");
+                            var con = window.location.pathname;
+                            if (con.indexOf("save") >= 0) {
+                                var message1 = [[${orderAdded}]];
+                                if(message1) {
+                                    console.log("toastr");
+                                    console.log(message1);
+                                    toastr.success("Order Status:  Success!");
 
-                                            alert("Order Status: Completed\nRedirecting to new order page");
-                                            setTimeout(function () {
-                                                window.location="../order/new/";
+                                    alert("Order Status: Completed\nRedirecting to new order page");
+                                    setTimeout(function () {
+                                        window.location="../order/new/";
 
-                                            }, 2000);
+                                    }, 2000);
 
-                                        }
-                                        else if(message1 == false){
-                                            console.log("tostr");
-                                            console.log(message1);
-                                            toastr.error("Order Status: Order not completed.");
+                                }
+                                else if(message1 == false){
+                                    console.log("tostr");
+                                    console.log(message1);
+                                    toastr.error("Order Status: Order not completed.");
 
-										}
-                                    }
-                                });
+                                }
+                            }
+                        });
 
-							});
+                    });
 
             function enableSearchButton(flag) {
                 $("#btn-search").prop("disabled", flag);
@@ -243,7 +245,7 @@
 
 		</script>
 
-		</div>
-	</footer>
+	</div>
+</footer>
 </body>
 </html>
