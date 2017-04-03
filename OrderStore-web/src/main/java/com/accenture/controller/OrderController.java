@@ -135,7 +135,7 @@ public class OrderController {
 			return ORDER_PAGE;
 		}
 		try {
-			order.setTotal((order.getTotal() / 1.16));
+			order.setTotal((order.getTotal()));
 			orderAdded = orderService.createOrder(order);
 		} catch (Exception e) {
 			e.printStackTrace();
