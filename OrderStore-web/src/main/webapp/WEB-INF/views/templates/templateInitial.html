@@ -186,9 +186,9 @@
                                 $('input[name*=quantity]').focusout(function(){
 
                                     //Cargar Subtotal
-									if($(this).val()<0) {
+									if($(this).val()<=1) {
                                         //alert($(this).val());
-                                        $(this).val(0);
+                                        $(this).val(1);
                                     }
 									var subtotal = 0.0;
 									$('#productTableBody > tr').each(function () {
