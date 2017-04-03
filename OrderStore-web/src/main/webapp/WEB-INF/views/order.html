@@ -117,7 +117,12 @@
 										<td><input type="text" th:field="*{products[__${rowStat.index}__].description}" class="form-control" readonly/></td>
 										<td><input type="number" th:field="*{products[__${rowStat.index}__].quantity}" th:id="*{products[__${rowStat.index}__].idProduct}"  class="form-control"/></td>
 										<p class="alert alert-danger" th:if="${#fields.hasErrors('products[__${rowStat.index}__].quantity')}" th:errors="*{products[__${rowStat.index}__].quantity}">NOT GOOD</p>
-										<td><input type="text" th:field="*{products[__${rowStat.index}__].price}" class="form-control" readonly/></td>
+										<td>
+											<div class="input-group">
+												<span class="input-group-addon">$</span>
+												<input type="text" th:field="*{products[__${rowStat.index}__].price}" class="form-control" readonly/>
+											</div>
+										</td>
 										<!--<p class="alert alert-danger" th:if="${#fields.hasErrors('products[__${rowStat.index}__].price')}" th:errors="${#fields.hasErrors('products[__${rowStat.index}__].quantity')}">NOT GOOD</p>-->
 										<td><button class="btn btn-danger" type="submit" name="removeRow"
 													th:value="${rowStat.index}"><span class="glyphicon glyphicon-remove"></span></button>
@@ -131,21 +136,30 @@
 						<div class="form-group">
 							<label th:text="#{msg.form.order.subtotal}" class="col-sm-7 control-label"/>
 							<div class="col-sm-3">
-								<input  id="subtotalValue" type="text"
-										th:field="*{total}" class="form-control" readonly/>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input  id="subtotalValue" type="text"
+											th:field="*{total}" class="form-control" readonly/>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label th:text="#{msg.form.order.tax}" class="col-sm-7 control-label"/>
 							<div class="col-sm-3">
-								<input id="taxValue" type="text" class="form-control" readonly/>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input id="taxValue" type="text" class="form-control" readonly/>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label th:text="#{msg.form.order.total}" class="col-sm-7 control-label"/>
 							<div class="col-sm-3">
-								<input id="totalValue" type="text" class="form-control" readonly/>
-                                <p class="alert alert-danger" th:if="${#fields.hasErrors('total')}" th:errors="*{total}" ></p>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input id="totalValue" type="text" class="form-control" readonly/>
+									<p class="alert alert-danger" th:if="${#fields.hasErrors('total')}" th:errors="*{total}" ></p>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
