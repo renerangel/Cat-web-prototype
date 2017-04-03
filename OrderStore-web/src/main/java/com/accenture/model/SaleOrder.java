@@ -11,7 +11,7 @@ import java.util.List;
 public class SaleOrder {
 	
 	private Integer orderNumber;
-	@Size(min = 3, max = 15)
+	@Size(min = 1, max = 15)
 	private String customerName;
 	private List<OrderProduct> products;
 	@Min(0)

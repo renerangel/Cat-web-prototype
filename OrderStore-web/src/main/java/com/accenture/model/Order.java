@@ -12,7 +12,6 @@ public class Order {
 	private Integer id;
 	@NotEmpty
 	private Date orderDate;
-	@NotBlank
 	@Size(min = 2, max = 20)
 	private String userName;
 	@NotEmpty @Min(0)
