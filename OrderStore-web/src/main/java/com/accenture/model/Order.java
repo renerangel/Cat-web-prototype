@@ -12,7 +12,7 @@ public class Order {
 	private Integer id;
 	@NotEmpty
 	private Date orderDate;
-	@Size(min = 2, max = 20)
+	@Size(min = 1, max = 20)
 	private String userName;
 	@NotEmpty @Min(0)
 	private Double total;
