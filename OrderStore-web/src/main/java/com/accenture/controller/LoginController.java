@@ -56,7 +56,7 @@ public class LoginController {
 	@RequestMapping( value ={"/"})
 	public String login() {
 		if (isCurrentAuthenticationAnonymous()) {
-			return "login";
+			return LOGIN_PAGE;
 	    } else {
 	    	return "redirect:/index";  
 	    }
@@ -65,7 +65,6 @@ public class LoginController {
 	@GetMapping
 	@RequestMapping( value ={"/index"})
 	public String index(ModelMap model) {
-		LOGGER.info("You are login and see the app");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return INDEX_PAGE;
 	}
@@ -76,7 +75,6 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage() {
-		LOGGER.info("Inside the login page");
 		if (isCurrentAuthenticationAnonymous()) {
 			return "login";
 	    } else {
