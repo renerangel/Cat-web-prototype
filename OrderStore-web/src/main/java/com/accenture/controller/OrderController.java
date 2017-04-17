@@ -129,12 +129,19 @@ public class OrderController {
 		LOGGER.info("Order info: "+order.getCustomerName());
 
 		Boolean orderAdded = null;
+		Boolean emptyCart = null;
 		if (result.hasErrors()) {
 			LOGGER.error("------- ERROR ---------------");
 			LOGGER.error(result.getFieldError().toString());
 			return ORDER_PAGE;
 		}
 		try {
+			if(order.getTotal() == 0) {
+				emptyCart = true;
+				model.addAttribute("emptyCart", emptyCart);
+				return ORDER_PAGE;
+			}
+			else
 			order.setTotal((order.getTotal()));
 			orderAdded = orderService.createOrder(order);
 		} catch (Exception e) {
