@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.accenture.model.OrderProduct;
 import com.accenture.model.SaleOrder;
+import com.accenture.security.AuthenticationFacade;
 import com.accenture.service.ProductService;
 import sun.rmi.runtime.Log;
 
@@ -35,7 +36,11 @@ public class OrderController {
 	private static final String ORDER_PAGE = "order";
 	
 	@Autowired
+	private AuthenticationFacade authentication;
+	
+	@Autowired
 	private ProductService productService;
+	
 	@Autowired
 	private OrderService orderService;
 
@@ -43,6 +48,7 @@ public class OrderController {
 	@RequestMapping( value ={"/order/new/"})
 	public String newOrder(ModelMap model) {
 		LOGGER.info("You are inside  new order");
+		model.addAttribute("loggeduser", authentication.getAuthentication().toString());
 		SaleOrder saleOrder = new SaleOrder();
 		Date date = new Date();
 		int orderNumber = (int) (date.getTime()/1000);

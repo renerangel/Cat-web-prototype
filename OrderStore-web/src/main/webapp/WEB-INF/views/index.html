@@ -7,14 +7,38 @@
 </head>
 <body>
 	<div layout:fragment="custom-content">
+		<!-- 
+		<div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Cat Web App - Accenture Prototype</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#" th:href="@{/}">Home</a></li>
+            <li><a href="#" th:href="@{/message}">Messages</a></li>
+            <li><a href="#" th:href="@{/task}">Tasks</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/logout" th:href="@{/logout}">Logout</a>
+            </li>
+          </ul>
+        </div>
+        -->
+		<!-- 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Project Name</a>
+					<a class="navbar-brand" href="#">Cat Prototype</a>
 				</div>
 			</div>
 		</nav>
-
+		-->
+		<!-- 
 		<div class="jumbotron">
 			<div class="container">
 				<h1>
@@ -24,47 +48,33 @@
 					<label th:if="${#strings.isEmpty(newMsg) == false}"
 						th:inline="text">Hello [[${newMsg}]]</label> <label
 						th:if="${#strings.isEmpty(newMsg)}">"Welcome Welcome!"</label>
+    					<label th:text="${#authentication.name}"></label>
 				</p>
 				<p>
-					<a id="btn1" class="btn btn-primary btn-lg" href="#" role="button">JQuery
-						is working</a>
+					<a id="btnLogout" class="btn btn-primary btn-lg" href="#" role="button">Logout</a>
 				</p>
 			</div>
 		</div>
-
+		 -->
 		<div class="container">
 
 			<div class="row">
 				<div class="col-md-4">
-					<h2>Heading</h2>
+					<h2>Create order</h2>
 					<p>
-						<input id="text1" type="text" />
-					</p>
-					<p>
-						<a id="btn2" class="btn btn-default" href="#" role="button">Spring
-							By Path Variable</a>
-					</p>
+					<a id="btn1" class="btn btn-primary btn-lg" href="#" role="button">Create new order</a>
+				</p>
 				</div>
+				<!-- 
 				<div class="col-md-4">
-					<h2>Heading</h2>
-					<p>
-						<input id="text2" type="text" />
-					</p>
+					<h2>Order Created</h2>
 					<p>
 						<a id="btn3" class="btn btn-default" href="#" role="button">Spring
 							By Request Variable</a>
 					</p>
 				</div>
-				<div class="col-md-4">
-					<h2>Heading</h2>
-					<p>ABC</p>
-					<p>
-						<a id="btn4" class="btn btn-default" href="#" role="button">Toastr
-							and moment libraries</a>
-					</p>
-				</div>
+				 -->
 			</div>
-			<hr>
 		</div>		
 	</div>
 	<footer><p layout:fragment="custom-footer"><p></footer>

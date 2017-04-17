@@ -1,37 +1,63 @@
 package com.accenture.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import com.accenture.converter.RoleToUserProfileConverter;
+import com.accenture.security.SecurityConfiguration;
+
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
+
 
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = { "com.accenture" })
+@Import(value = { SecurityConfiguration.class })
 public class SpringWebContext extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 	
 	private ApplicationContext applicationContext;
+	
+	@Autowired
+	RoleToUserProfileConverter roleToUserProfileConverter;
+
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");		
 	}
-
+	
+	/**
+     * Configure Converter to be used.
+     * In our example, we need a converter to convert string values[Roles] to UserProfiles in newUser.jsp
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(roleToUserProfileConverter);
+    }
+    
 	/**
 	 * Configure MessageSource to lookup any validation/error message in
 	 * internationalized property files
@@ -72,6 +98,10 @@ public class SpringWebContext extends WebMvcConfigurerAdapter implements Applica
 	    // for safer backwards compatibility.
 	    templateEngine.setEnableSpringELCompiler(true);
 	    templateEngine.addDialect(new LayoutDialect(new GroupingStrategy()));
+	    
+	    Set<IDialect> dialects = new HashSet<>();
+		dialects.add(new SpringSecurityDialect());
+	    templateEngine.setAdditionalDialects(dialects);
 	    return templateEngine;
 	}
 	

@@ -24,7 +24,37 @@
 </head>
 <body>
 <header>
-	<h1>Create Order</h1>
+	
+	 <div class="navbar navbar-inverse navbar-fixed-top" layout:fragment="custom-header">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Cat Web app</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#" th:href="@{/}">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/logout" th:href="@{/logout}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="jumbotron">
+			<div class="container">
+				<p>
+					<label th:if="${#strings.isEmpty(newMsg)}">Welcome: </label>
+    					<label th:text="${#authentication.name}"></label>
+				</p>
+			</div>
+		</div>
 </header>
 <div layout:fragment="custom-content">
 	<p>Your page content goes here</p>
@@ -102,8 +132,15 @@
                         });
 
                         $("#btn1").click(function() {
-                            alert("JQuery is working.");
+                            var link = /*[[@{/order/new/}]]*/;
+							window.location.href = link;
                         });
+                        
+                        $("#btnLogout").click(function() {
+                            var link = /*[[@{/logout}]]*/;
+							window.location.href = link;
+                        });
+
 
                         $("#btn2")
                             .click(
@@ -112,6 +149,7 @@
                                     var path = /*[[@{/showMessage/}]]*/
                                         window.location.href = path + text;
                                 });
+                    	
 
                         $("#btn3")
                             .click(
@@ -142,6 +180,7 @@
                                     window.location="../order/new/";
                             }
                         );
+
 
 //                                $("#btnSubmit").click(
 //                                    function() {
