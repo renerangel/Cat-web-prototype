@@ -208,6 +208,14 @@
                             //Cargar Total
                             var total = subtotal + (subtotal * (tax / 100));
                             $('#totalValue').val(total.toFixed(2));
+
+                            if(total == 0) {
+
+                                enableSubmitButton(false);
+							}
+							else if (total > 0) {
+                                enableSubmitButton(false);
+							}
                         });
 
 
@@ -216,6 +224,7 @@
                             var con = window.location.pathname;
                             if (con.indexOf("save") >= 0) {
                                 var message1 = [[${orderAdded}]];
+                                var message2 = [[${emptyCart}]];
                                 if(message1) {
                                     console.log("toastr");
                                     console.log(message1);
@@ -232,8 +241,12 @@
                                     console.log("tostr");
                                     console.log(message1);
                                     toastr.error("Order Status: Order not completed.");
-
                                 }
+                                else if(message2) {
+                                    console.log("No items");
+                                    console.log(message2);
+                                    toastr.error("No Items added");
+								}
                             }
                         });
 
@@ -241,6 +254,11 @@
 
             function enableSearchButton(flag) {
                 $("#btn-search").prop("disabled", flag);
+            }
+
+            function  enableSubmitButton(flag) {
+                $("#btnSubmit").prop("disabled", flag);
+
             }
 
 		</script>
