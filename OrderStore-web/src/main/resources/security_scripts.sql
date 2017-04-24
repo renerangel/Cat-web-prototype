@@ -65,4 +65,4 @@ CREATE TABLE persistent_logins (
  * User: demo
  * Pwd: abc125 
  * 
- */*/
+ */

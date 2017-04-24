@@ -45,7 +45,7 @@ public class OrderController {
 	private OrderService orderService;
 
 	@GetMapping
-	@RequestMapping( value ={"/order/new/"})
+	@RequestMapping( value ={"/order/new"})
 	public String newOrder(ModelMap model) {
 		LOGGER.info("You are inside  new order");
 		model.addAttribute("loggeduser", authentication.getAuthentication().toString());
@@ -59,6 +59,8 @@ public class OrderController {
 		LOGGER.info("Int Date: " + new Date(((long)orderNumber) * 1000L));
 
 		saleOrder.setOrderNumber(orderNumber);
+
+		saleOrder.setCustomerName(authentication.getAuthentication().getName().toString());
 
 		List <OrderProduct> products = new ArrayList<>();
 		saleOrder.setProducts(products);
@@ -161,6 +163,6 @@ public class OrderController {
 	@RequestMapping( value ="/order/save", params={"clearForm"})
 	public String clearForm(@ModelAttribute("order") SaleOrder order, Model model) {
 		LOGGER.info("Cleaning the form");
-		return "forward:/order/new/";
+		return "forward:/order/new";
 	}
 }

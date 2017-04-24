@@ -3,7 +3,7 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{templates/templateInitial}">
 <head>
-	<title>Layout Dialect Example</title>
+	<title>New Order</title>
 </head>
 <body>
 <div layout:fragment="custom-content">
@@ -19,8 +19,9 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#" th:href="@{/}">Home</a></li>
-             <li class="active"><a href="#" th:href="@{/}">Order</a></li>
+			  <li><a href="#" th:href="@{/}">Home</a></li>
+			  <li><a href="#" th:href="@{/product/new}">Product</a></li>
+			  <li class="active"><a href="#" th:href="@{/order/new}">Order</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -33,7 +34,7 @@
 	<div class="container">
 		<div class="row">
 				<div class="col-md-4">
-					<h2>Create New order</h2>
+					<h2>Create new order</h2>
 				</div>
 			</div>
 		<form class="form-horizontal" action="#" th:action="@{/order/save}" th:object="${order}"
@@ -47,8 +48,7 @@
 			<div class="form-group">
 				<label th:text="#{msg.form.customer.name}" class="col-sm-2 control-label"/>
 				<div class="col-sm-4">
-					<input type="text" th:field="*{customerName}" class="form-control" th:errorclass="fieldError"/>
-					<p class="alert alert-danger"th:if="${#fields.hasErrors('customerName')}" th:text="#{Size.SaleOrder.customerName}"></p>
+					<input type="text" th:field="*{customerName}"  class="form-control"  readonly/>
 				</div>
 			</div>
 			<div class="form-group">
@@ -169,63 +169,14 @@
 							<input class="btn btn-danger" type="submit" name="clearForm" value="Cancel"/>
 
 						</div>
+						</thead>
+					</table>
+				</div>
+			</div>
 		</form>
 		<div class="form-group">
 			<input id="status" type="hidden" th:value="${orderAdded}" class="col-sm-7 control-label"/>
 			<input id="emptyCart" type="hidden" th:value="${emptyCart}" class="col-sm-7 control-label">
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<!--
-                <form action="#" th:action="@{/order/save}" th:object="${order}"
-                    method="post">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td><label th:text="#{msg.form.order.number}" /></td>
-                            <td>&nbsp;<input type="number" th:field="*{orderNumber}" /></td>
-                        </tr>
-                        <tr>
-                            <td><label th:text="#{msg.form.customer.name}" /></td>
-                            <td>&nbsp;<input type="text" th:field="*{customerName}" /></td>
-                        </tr>
-
-
-                        <tr>
-                            <td><label th:text="#{msg.form.product.name}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.quantity}" />&nbsp;&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label th:text="#{msg.form.product.unit.price}" />&nbsp;&nbsp;&nbsp;</td>
-                        </tr>
-                        <tr th:each="prod : ${order.products}">
-                            <td><input type="text" th:fiel="${prod.description}"/></td>
-                            <td><input type="text" th:fiel="${prod.quantity}"/></td>
-                            <td><input type="text" th:fiel="${prod.price}"/></td>
-                          </tr>
-                        <tr>
-                            <td><label th:text="#{msg.form.order.subtotal}" /></td>
-                            <td><input type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td><label th:text="#{msg.form.order.tax}"/></td>
-                            <td><input type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td><label th:text="#{msg.form.order.total}"/></td>
-                            <td><input type="text" th:field="*{total}"/></td>
-                        </tr>
-                    </table>
-                </form>
-                -->
-			</div>
-			<!--
-            <div class="col-md-4">
-                <h2>Heading</h2>
-                <p>ABC</p>
-                <p>
-                    <a id="btn4" class="btn btn-default" href="#" role="button">Toastr
-                        and moment libraries</a>
-                </p>
-            </div>
-            -->
 		</div>
 		<hr>
 	</div>
