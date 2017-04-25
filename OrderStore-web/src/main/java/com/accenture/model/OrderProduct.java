@@ -11,9 +11,9 @@ public class OrderProduct {
 
 
 	private Integer idProduct;
-	@NotEmpty @Min(1)
+	@NotNull @Min(1)
 	private Double price;
-	@NotEmpty  @Min(1)
+	@NotNull  @Min(1)
 	private Integer quantity;
 	@NotBlank
 	private String description;

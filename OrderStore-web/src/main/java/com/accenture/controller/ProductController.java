@@ -44,7 +44,7 @@ public class ProductController {
 
     @PostMapping
     @RequestMapping( value ={"/product/save"})
-    public String createNewProduct(@ModelAttribute("product") Product product, Model model) {
+    public String createNewProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         try {
             Product product1 = productService.addProduct(product.getDescription(),product.getInventory(),product.getPrice());
         } catch (Exception e) {
